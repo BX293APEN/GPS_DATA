@@ -11,4 +11,4 @@ def runas(path):
     )
 
 if __name__ == "__main__":
-    runas(f"{os.path.dirname(os.path.abspath(__file__))}\\GPS.pyw")
+    runas(f"{os.path.dirname(os.path.abspath(__file__))}\\main.pyw")
