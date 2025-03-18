@@ -1,4 +1,4 @@
-import subprocess, os, datetime, tkinter, math
+import subprocess, os, tkinter, math
 
 from pystray import (
     Icon, 
@@ -39,7 +39,7 @@ class TaskTray():
 class GUI():
     def __init__(self):
         self.directory = model.data.directory
-        self.JPTime = datetime.datetime.strptime(f"{model.data.JPDate} {model.data.jpTime}", '%Y/%m/%d %H:%M:%S')
+        model.data.JPN = model.data.JPN
 
         self.font = "HGP創英角ﾎﾟｯﾌﾟ体"
         model.data.clock = tkinter.Tk()
@@ -108,26 +108,27 @@ class GUI():
     
     def disp_time_update(self):
         if model.data.endFlag == 0:
+            # print(model.data.JPN)
             try:
-                md = model.data.month[self.JPTime.month - 1]
-                weekd = model.data.yobi[self.JPTime.weekday()]
-                if self.JPTime.hour > 12:
-                    hour = self.JPTime.hour - 12
+                md = model.data.month[model.data.JPN.month - 1]
+                weekd = model.data.yobi[model.data.JPN.weekday()]
+                if model.data.JPN.hour > 12:
+                    hour = model.data.JPN.hour - 12
                     meridiem = "P.M. "
                 else:
-                    hour = self.JPTime.hour
+                    hour = model.data.JPN.hour
                     meridiem = "A.M. "
         
-                timeText = f"{meridiem}{hour:02}:{self.JPTime.minute:02}:{self.JPTime.second:02}"
+                timeText = f"{meridiem}{hour:02}:{model.data.JPN.minute:02}:{model.data.JPN.second:02}"
         
                 secondHandLine = 300 - 15
-                secondHandMove = self.JPTime.second * ( math.pi / 30 ) - (math.pi / 2)
+                secondHandMove = model.data.JPN.second * ( math.pi / 30 ) - (math.pi / 2)
                 secondHandX =  math.cos(secondHandMove) * secondHandLine
                 secondHandY =  math.sin(secondHandMove) * secondHandLine
-                minuteHandMove = (self.JPTime.minute + (self.JPTime.second / 60)) * ( math.pi / 30 ) - (math.pi / 2)
+                minuteHandMove = (model.data.JPN.minute + (model.data.JPN.second / 60)) * ( math.pi / 30 ) - (math.pi / 2)
                 minuteHandX =  math.cos(minuteHandMove) * (secondHandLine * 0.9)
                 minuteHandY =  math.sin(minuteHandMove) * (secondHandLine * 0.9)
-                hourHandMove = (hour + ((self.JPTime.minute + (self.JPTime.second / 60)) / 60)) * ( math.pi / 6 ) - (math.pi / 2)
+                hourHandMove = (hour + ((model.data.JPN.minute + (model.data.JPN.second / 60)) / 60)) * ( math.pi / 6 ) - (math.pi / 2)
                 hourHandX =  math.cos(hourHandMove) * (secondHandLine * 0.6)
                 hourHandY =  math.sin(hourHandMove) * (secondHandLine * 0.6)
 
@@ -218,7 +219,7 @@ class GUI():
                     self.paint.create_text( # 日にち
                         self.pdateX , 
                         (6/5)*self.center, 
-                        text = f"{self.JPTime.day:02}", 
+                        text = f"{model.data.JPN.day:02}", 
                         tag="D",
                         fill="white", 
                         font = (
@@ -254,7 +255,7 @@ class GUI():
                     self.paint.create_text(
                         (4/4)*self.center, 
                         (3/4)*self.center, 
-                        text = f"{self.JPTime.year}年", 
+                        text = f"{model.data.JPN.year}年", 
                         tag="Y",fill="white", 
                         font = (
                             self.font, 

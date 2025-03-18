@@ -1,13 +1,11 @@
-import os, json
+import os, json, datetime
 class Data:
-    def __init__(self, config):
+    def __init__(self, path):
         self.rxData     = ""
         self.endFlag    = 0
-        self.config     = config
         self.utcTime    = "0:0:0"
-        self.jpTime     = "0:0:0"
         self.UTCdate    = "2024/01/01"
-        self.JPDate     = "2024/01/01"
+        self.JPN        = datetime.datetime.strptime("2024/01/01 0:0:0.0", '%Y/%m/%d %H:%M:%S.%f')
         self.latitude   = ""
         self.longitude  = ""
         self.yobi       = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
@@ -17,10 +15,13 @@ class Data:
         self.altitude   = ""
         self.direction  = 0
         self.timeDiff   = 9
-        self.directory  = os.getcwd()
+        self.directory  = os.path.dirname(path)
         self.clock      = None
 
-# os.path.dirname(os.path.abspath(__file__)) : このファイルのフォルダ
-# os.getcwd() : メインファイルのフォルダ
-with open(f"{os.getcwd()}\\config.json", "r", encoding="UTF-8") as configFile:
-    data = Data(json.loads(configFile.read()))
+        with open(f"{self.directory}\\config\\config.json", "r", encoding="UTF-8") as configFile:
+            self.config = json.loads(configFile.read())
+
+        # os.path.dirname(os.path.abspath(__file__))    : このファイルのフォルダ
+        # os.getcwd()                                   : メインファイルのフォルダ
+
+data = Data(os.path.dirname(os.path.abspath(__file__)))
