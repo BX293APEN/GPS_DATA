@@ -61,15 +61,16 @@ class SendUARTData:
             self.serialPort.dtr=False
 
 class SatelliteDataRead(SendUARTData):
-    def __init__(self):
+    def __init__(self, debug = False):
         super().__init__(
-            port = model.data.config["port"],
-            baudrate = 115200, 
-            timeout = 0.1, 
-            setdtr = 1,
-            encoding = "UTF-8",
+            port        = model.data.config["port"],
+            baudrate    = 115200, 
+            timeout     = 0.1, 
+            setdtr      = 1,
+            encoding    = "UTF-8",
             dispCOMPort = False
         )
+        self.debug = debug
 
     def rx_data_read(self):
         rxData = ""
@@ -80,7 +81,8 @@ class SatelliteDataRead(SendUARTData):
                 for d in rxData.split("\n"):
                     if d.count(",") > 0:
                         gpsData = d.split(",")
-                        #print(d)
+                        if self.debug:
+                            print(d)
                         if gpsData[0] == "$GPGGA" and gpsData[1] != "":
                             # 時刻情報
                             utcTimeData = list(gpsData[1])

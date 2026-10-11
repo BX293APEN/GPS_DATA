@@ -112,7 +112,7 @@ class GUI():
             try:
                 md = model.data.month[model.data.JPN.month - 1]
                 weekd = model.data.yobi[model.data.JPN.weekday()]
-                if model.data.JPN.hour > 12:
+                if model.data.JPN.hour >= 12:
                     hour = model.data.JPN.hour - 12
                     meridiem = "P.M. "
                 else:

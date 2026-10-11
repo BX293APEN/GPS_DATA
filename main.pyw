@@ -2,7 +2,7 @@ from lib import model, template, view
 import threading, subprocess, os
 
 def main():
-    with view.SatelliteDataRead() as s:
+    with view.SatelliteDataRead(debug = False) as s:
         s.rx_data_read()
 
 if __name__ == "__main__":
